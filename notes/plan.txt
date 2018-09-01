@@ -1,0 +1,25 @@
+- initialize
+- check if spiffs is filled
+- check if its filled with wifi creds and mqtt ip
+- load into collection
+- are wifis available?
+- scan list of wifi
+- compare to list of creds
+- try login if found
+- success
+    - proceed to mqtt setup
+- failure
+    - set up ap
+    - serve html page with ssid + pw + mqtt ip inputs 
+    - read inputs to vars
+    - try login
+    - success
+        - save to spiffs
+        - proceed to mqtt setup
+    - failure
+        - goto: set up ap
+- mqtt setup
+    - ping mqtt
+    - try connect
+    - send test message
+    - proceed to loop section
