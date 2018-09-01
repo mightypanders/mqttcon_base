@@ -4,8 +4,8 @@
 
 namespace
 {
-const char *SSID = "TheCommonwealth";
-const char *WIFI_PASS = "97459596711813014854";
+const char *SSID = "...";
+const char *WIFI_PASS = "...";
 //const char *MQTT_SERVER = "192.168.178.40";
 //int SENSOR = 1;
 } // namespace
