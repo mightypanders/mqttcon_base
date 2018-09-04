@@ -1,11 +1,19 @@
 #include <PubSubClient.h>
 #include <ESP8266WiFi.h>
+#include <DHT.h>
+#include <DHT_U.h>
+#include <Adafruit_Sensor.h>
 #include "ap.h"
+
+#define DHTPIN 2
+#define DHTTYPE DHT11
+DHT_Unified dht(DHTPIN, DHTTYPE);
+uint32_t delayMS;
 
 namespace
 {
-const char *SSID = "...";
-const char *WIFI_PASS = "...";
+const char *SSID = "";
+const char *WIFI_PASS = "";
 //const char *MQTT_SERVER = "192.168.178.40";
 //int SENSOR = 1;
 } // namespace
@@ -83,9 +91,14 @@ bool setupMQTTConnection()
 void setup()
 {
     Serial.begin(9600);
+    dht.begin();
+    sensor_t sensor;
     delay(500);
     Serial.println("Setting up.");
     delay(1);
+    dht.temperature().getSensor(&sensor);
+    dht.humidity().getSensor(&sensor);
+    delayMS = sensor.min_delay / 1000;
 
     WiFi.macAddress(mac);
     clientMac += macToString(mac);
@@ -101,9 +114,20 @@ void loop()
 {
     if (client.connected())
     {
-        String p = String(inc);
-        client.publish("/test/temp",p.c_str());
+        sensors_event_t event;
+
+        dht.temperature().getEvent(&event);
+        if (!isnan(event.temperature))
+            client.publish("/test/temp", String(event.temperature).c_str());
+
+        dht.humidity().getEvent(&event);
+
+        if (!isnan(event.relative_humidity))
+            client.publish("/test/hum", String(event.relative_humidity).c_str());
+            
+        client.publish("val/debug", String(inc).c_str());
         inc++;
+
         client.loop();
         Serial.println("loop");
     }
@@ -111,6 +135,6 @@ void loop()
     {
         setupMQTTConnection();
     }
-        delay(1000);
+    delay(1000);
     // put your main code here, to run repeatedly:
 }
