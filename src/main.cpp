@@ -3,7 +3,7 @@
 #include <DHT.h>
 #include <DHT_U.h>
 #include <Adafruit_Sensor.h>
-#include "ap.h"
+#include <ConfigManager.h>
 
 #define DHTPIN 2
 #define DHTTYPE DHT11
@@ -27,7 +27,6 @@ int inc = 0;
 IPAddress ip(192, 168, 178, 128);
 IPAddress mqttserver(192, 168, 178, 40);
 
-localAP failsafeAP;
 WiFiClient wificlient;
 PubSubClient client(mqttserver, 1883, wificlient);
 
@@ -106,7 +105,6 @@ void setup()
 
     if (!wifiConnect())
     {
-        failsafeAP.setupAP();
     }
 }
 

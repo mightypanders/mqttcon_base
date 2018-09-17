@@ -1,22 +1,19 @@
-#ifndef filesystem_H
-#define filesystem_H
-#include <FS.h>
+// #ifndef filesystem_H
+// #define filesystem_H
+// #include <HashMap.h>
+// #include <ESP8266WiFi.h>
+// #include <FS.h>
 
-class filesystem
-{
+// class filesystem
+// {
+//   private:
+//     bool filepresent();
 
-    private:
-    public:
-    filesystem();
-    void open();
-    
-};
+//   public:
+//     filesystem();
+//     void open();
+//     HashMap<String, String> creds();
+//     HashMap<HashMap<String, String>, IPAddress> mqttServer();
+// };
 
-typedef struct {
-
-string ssid;
-string pass;
-
-} wificreds
-
-#endif
+// #endif
